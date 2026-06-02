@@ -65,8 +65,8 @@ Parameters match NMDC rqcfilter2 defaults (Clum et al. 2021).
 
 On MSI, load the available module:
 ```bash
-module load bbmap
-bbduk.sh --version
+module load bbmap # check to see if module loads (UMN MSI Agate has a bbmap module)
+bbduk.sh --version # check to see if command works
 ```
 
 On other clusters without a module, install via conda:
@@ -84,7 +84,10 @@ export PATH="$PWD/bbmap:$PATH"
 
 **R packages** (for visualization only):
 ```r
+module load R
+R
 install.packages(c("ggplot2", "dplyr", "tidyr", "readr", "purrr", "forcats", "patchwork"))
+q()
 ```
 
 ---
@@ -95,6 +98,7 @@ Clone and configure the SLURM script for your cluster before first use. Open `me
 
 ```bash
 # If bbduk.sh is on PATH (module or conda), leave empty:
+# Unless you installed via a binary, this is unnecessary to update.
 BBTOOLS_DIR=""
 
 # SLURM partition name for your cluster:
@@ -215,9 +219,10 @@ A well-QC'd metagenome library typically retains >99% of reads, with adapter tri
 
 ## Visualizing QC results
 
-After all jobs complete, generate summary plots across all samples:
+After all jobs complete, generate summary plots across all samples (this can be done from a login node):
 
 ```bash
+module load R
 Rscript plot_qc_stats.R /path/to/output_dir
 ```
 
@@ -269,9 +274,3 @@ The script works on any SLURM cluster with BBTools available. The changes needed
 
 **NMDC Metagenome Reads QC Workflow** (rqcfilter2 parameters)
 > Clum, A., Huntemann, M., Bushnell, B., Foster, B., Roux, S., Hajek, P. P., ... & Eloe-Fadrosh, E. A. (2021). DOE JGI Metagenome Workflow. *mSystems*, 6(2), e00804-20. https://doi.org/10.1128/mSystems.00804-20
-
-**Shotgun metagenomics — general methods reference**
-> Quince, C., Walker, A. W., Simpson, J. T., Loman, N. J., & Segata, N. (2017). Shotgun metagenomics, from sampling to analysis. *Nature Biotechnology*, 35(9), 833–844. https://doi.org/10.1038/nbt.3935
-
-**Illumina poly-G artifact (two-color chemistry)**
-> Chen, S., Zhou, Y., Chen, Y., & Gu, J. (2018). fastp: an ultra-fast all-in-one FASTQ preprocessor. *Bioinformatics*, 34(17), i884–i890. https://doi.org/10.1093/bioinformatics/bty560
